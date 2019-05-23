@@ -11,7 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("all")
-public abstract class Query {
+public abstract class Query implements Cloneable {
+
+    /**
+     * 克隆对象
+     *
+     * @return
+     * @throws CloneNotSupportedException
+     */
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 
     public Object executeQueryTemplate(String sql, Object[] params, Class clazz, CallBack callBack) {
         //查询
@@ -27,7 +38,7 @@ public abstract class Query {
             e.printStackTrace();
             return null;
         } finally {
-            DBManager.close(Ps, conn);
+            DBManager.close(resultSet, Ps, conn);
         }
 
     }
@@ -213,7 +224,7 @@ public abstract class Query {
                             String columnLabel = metaData.getColumnLabel(i + 1);//获取列明   username
                             Object setobj = resultSet.getObject(i + 1);//列的值    第几个列
                             if (setobj != null) {//保存值不为null
-                                System.out.println(setobj+"        "+columnLabel);
+                                //    System.out.println(setobj + "        " + columnLabel);
                                 ReflectUtils.invokeSet(columnLabel, setobj, obj);//通过set方法设置    通过列执行set方法
                             }
 

@@ -25,25 +25,35 @@ public class MySqlQuery extends Query {
     }
 
     public static void main(String[] args) {
-        Map<String, TableInfo> tables = TableContext.tables;
+     Map<String, TableInfo> tables = TableContext.tables;
 
-        List<ABC> list = new MySqlQuery().queryRows("SELECT * FROM ABC", ABC.class, null);
-        for (ABC a : list) {
-            System.out.println(a.getId() + "    " + a.getName());
+        long A1 = System.currentTimeMillis();
+        for (int i = 0; i <30 ; i++) {
+            List<ABC> list = QueryFactory.createQuery().queryRows("SELECT * FROM ABC", ABC.class, null);
+
+            // 未使用连接池 32896  31540 31005  30932  31070
+            // 使用连接池 3830
+
+//            for (ABC a : list) {
+//                System.out.println(a.getId() + "    " + a.getName());
+//            }
         }
+        long A2 = System.currentTimeMillis();
+        System.out.println(A2-A1);
 
-        Object o = new MySqlQuery().queryValue("select count(*) from ABC", null);
-        System.out.println(o);
-
-        Number number = new MySqlQuery().queryNumber("select numa from ABC where id=1", null);
-        System.out.println(number);
-
-
-        List<NewS> list1 = new MySqlQuery().queryRows("select * from newS", NewS.class, null);
-
-        for (NewS s : list1) {
-            System.out.println("文章ID" + s.getNews_ID() + "     文章标题" + s.getTitle() + "     文章描述" + s.getDescribes() + "     所属公司" + s.getCorporate_name() + "     所属用户名" + s.getUserName() + "     所属时间" + s.getTime() + "     文章内容" + s.getText());
-        }
+//
+//        Object o = new MySqlQuery().queryValue("select count(*) from ABC", null);
+//        System.out.println(o);
+//
+//        Number number = QueryFactory.createQuery().queryNumber("select numa from ABC where id=1", null);
+//        System.out.println(number);
+//
+//
+//        List<NewS> list1 = QueryFactory.createQuery().queryRows("select * from newS", NewS.class, null);
+//
+//        for (NewS s : list1) {
+//            System.out.println("文章ID" + s.getNews_ID() + "     文章标题" + s.getTitle() + "     文章描述" + s.getDescribes() + "     所属公司" + s.getCorporate_name() + "     所属用户名" + s.getUserName() + "     所属时间" + s.getTime() + "     文章内容" + s.getText());
+//        }
 
 
 
