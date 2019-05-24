@@ -29,16 +29,19 @@ public class ReflectUtils {
     }
 
     public static void invokeSet(String fieldName, Object setObj, Object obj) {
-        Class aClass = obj.getClass();
-        String s = "set" + StringUtils.firstChar2UpperCase(fieldName);
-        try {
-            Method method = aClass.getDeclaredMethod(s, setObj.getClass());
-            method.invoke(obj,setObj);
-        } catch (Exception e) {
-            System.out.println(s);
-            System.out.println(setObj);
-            e.printStackTrace();
+        if (setObj != null) {   //保存值不为null
+            Class aClass = obj.getClass();
+            String s = "set" + StringUtils.firstChar2UpperCase(fieldName);
+            try {
+                Method method = aClass.getDeclaredMethod(s, setObj.getClass());
+                method.invoke(obj, setObj);
+            } catch (Exception e) {
+                System.out.println(s);
+                System.out.println(setObj);
+                e.printStackTrace();
+            }
         }
+
 
     }
 

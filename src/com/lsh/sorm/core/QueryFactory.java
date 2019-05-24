@@ -18,11 +18,13 @@ public class QueryFactory {
     }
 
     public static Query createQuery() {
-        try {
-            return (Query) query.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            return null;
-        }
+//        try {
+//           return (Query) query.clone();
+//        } catch (CloneNotSupportedException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+
+        return query;
     }
 }

@@ -9,6 +9,8 @@ import java.util.Map;
 
 public class MySqlQuery extends Query {
 
+    private static int finalI;
+
     public static void A() {
         //        Map<String, TableInfo> tables = TableContext.tables;
 //        ABC newS = new ABC();
@@ -25,21 +27,43 @@ public class MySqlQuery extends Query {
     }
 
     public static void main(String[] args) {
-     Map<String, TableInfo> tables = TableContext.tables;
+        Map<String, TableInfo> tables = TableContext.tables;
 
         long A1 = System.currentTimeMillis();
-        for (int i = 0; i <30 ; i++) {
-            List<ABC> list = QueryFactory.createQuery().queryRows("SELECT * FROM ABC", ABC.class, null);
+//
+//        ABC o = (ABC) QueryFactory.createQuery().queryById(ABC.class, 5);
+//System.out.println(o.getName());
+//System.out.println(o.getNuma());
+
+        finalI = 0;
+        for (int i = 0; i < 1000; i++) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    List<ABC> list = QueryFactory.createQuery().queryRows("SELECT * FROM ABC", ABC.class, null);
+                    for (ABC a : list) {
+                        System.out.println(a.getId() + "    " + a.getName());
+                    }
+                    synchronized (Thread.currentThread()) {
+                        finalI = finalI + 1;
+                        System.out.println("--------------------------------" + finalI + "    连接池数量" + DBManager.dbConnPool.pool.size() +Thread.currentThread().getName());
+                    if (finalI==1000)
+                    {
+                        long A2 = System.currentTimeMillis();
+                        System.out.println(A2 - A1);
+                    }
+                    }
+                }
+            }).start();
+
+//            List<ABC> list1 =new MySqlQuery().queryRows("SELECT * FROM ABC", ABC.class, null);
 
             // 未使用连接池 32896  31540 31005  30932  31070
             // 使用连接池 3830
 
-//            for (ABC a : list) {
-//                System.out.println(a.getId() + "    " + a.getName());
-//            }
+
         }
-        long A2 = System.currentTimeMillis();
-        System.out.println(A2-A1);
+
 
 //
 //        Object o = new MySqlQuery().queryValue("select count(*) from ABC", null);

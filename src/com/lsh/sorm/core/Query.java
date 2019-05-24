@@ -223,11 +223,8 @@ public abstract class Query implements Cloneable {
                             //列操作 循环列，并设置
                             String columnLabel = metaData.getColumnLabel(i + 1);//获取列明   username
                             Object setobj = resultSet.getObject(i + 1);//列的值    第几个列
-                            if (setobj != null) {//保存值不为null
-                                //    System.out.println(setobj + "        " + columnLabel);
-                                ReflectUtils.invokeSet(columnLabel, setobj, obj);//通过set方法设置    通过列执行set方法
-                            }
-
+                            //    System.out.println(setobj + "        " + columnLabel);
+                            ReflectUtils.invokeSet(columnLabel, setobj, obj);//通过set方法设置    通过列执行set方法
                         }
                         list.add(obj);
 
@@ -252,7 +249,23 @@ public abstract class Query implements Cloneable {
      */
     public Object queryUniqueRow(String sql, Class clazz, Object[] params) {
         List list = queryRows(sql, clazz, params);
-        return (list == null) ? null : list.get(0);
+        return (list != null && list.size() > 0) ? list.get(0) : null;
+    }
+
+    /**
+     * 根据主键直接查询对应的对象
+     *
+     * @param clazz class对象
+     * @param Id    主键ID
+     * @return
+     */
+    public Object queryById(Class clazz, Object Id) {
+        //通过Class对象找到TableInfo
+        TableInfo tableInfo = TableContext.poClassTableMap.get(clazz);
+        //获取主键
+        ColumnInfo onlyPriKey = tableInfo.getOnlyPriKey();
+        String sql = "select * from " + tableInfo.getTname() + " where " + onlyPriKey.getName() + "=?";
+        return queryUniqueRow(sql, clazz, new Object[]{Id});
     }
 
 

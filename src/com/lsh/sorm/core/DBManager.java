@@ -47,10 +47,12 @@ public class DBManager {
         try {
             Class.forName(conf.getDriver());
             return DriverManager.getConnection(conf.getUrl(), conf.getUser(), conf.getPwd());//直接建立连接，后期增加连接池处理提高效率
+        } catch (SQLNonTransientConnectionException e) {
+            System.out.println("超过数据库允许最大连接数！！！");
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     /**
