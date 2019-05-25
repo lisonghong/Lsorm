@@ -1,5 +1,8 @@
 package com.lsh.sorm.core;
 
+/**
+ * mysql数据库实现的TypeConvertor类、用于数据库字段类型和Java类型的相互转换
+ */
 public class MySqlTypeConvertor implements TypeConvertor {
 
     @Override
@@ -43,8 +46,8 @@ public class MySqlTypeConvertor implements TypeConvertor {
     }
 
     /**
-     * @param javaDatatype Java数据类型
-     * @return
+     * @param javaDatatype Java数据类型转数据库类型
+     * @return 转换好的 数据库类型字符串
      */
     @Override
     public String JavaType2DatabaseType(String javaDatatype) {

@@ -18,7 +18,7 @@ import java.io.IOException;
 public class JavaFileUtils {
 
     /**
-     * 根据字段信息生成Java属性信息。如varchar username --> private String username
+     * 根据字段信息生成Java属性信息。如varchar username -- private String username
      *
      * @param column    字段信息
      * @param convertor 类型转化器

@@ -2,16 +2,12 @@ package com.lsh.sorm.core;
 
 import java.util.List;
 
+/**
+ * mysql数据库实现的Query类
+ */
 public class MySqlQuery extends Query {
 
-    /**
-     * @param sql      查询sql
-     * @param pageNum  第几页的数据
-     * @param pageSize 每页显示多少条记录
-     * @param clazz    class 反射对象
-     * @param params   参数
-     * @return
-     */
+
     @Override
     public List queryPagenate(String sql, int pageNum, int pageSize, Class clazz, Object[] params) {
         //当前页   乘  每页的数量 可对于  也显示页数的数量

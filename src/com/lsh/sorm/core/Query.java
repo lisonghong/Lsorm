@@ -11,26 +11,40 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 数据库操作超类，所有不同数据库版本操作类均是本类的子类
+ */
 @SuppressWarnings("all")
 public abstract class Query implements Cloneable {
 
     /**
      * 克隆对象
      *
-     * @return
-     * @throws CloneNotSupportedException
+     * @return 返回克隆的对象 Query
+     * @throws CloneNotSupportedException 抛出CloneNotSupportedException
      */
     @Override
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 
+    /**
+     * 无参构造、该方法可以初始化表结构，以及成表到类对象
+     */
     public Query() {
         //开始加载
         Map<String, TableInfo> tables = TableContext.tables;
     }
 
-
+    /**
+     * 查询模板
+     *
+     * @param sql      sql语句
+     * @param params   参数
+     * @param clazz    反射对象class
+     * @param callBack 回调接口CallBack
+     * @return 返回查询对象 可能是Object 也可能是List 根据查询方法而定
+     */
     public Object executeQueryTemplate(String sql, Object[] params, Class clazz, CallBack callBack) {
         //查询
         Connection conn = DBManager.getConn();//获取连接对象
@@ -57,7 +71,7 @@ public abstract class Query implements Cloneable {
      *
      * @param sql    sql语句
      * @param params 参数
-     * @return
+     * @return 返回执行成功行数
      */
 
     public int executeDml(String sql, Object[] params) {
@@ -83,7 +97,7 @@ public abstract class Query implements Cloneable {
      * 把对象不为null的属性往数据库中存储，对数字，如果为null，放0
      *
      * @param obj 要存储的对象
-     * @return 成功执行条数
+     * @return 成功插入执行条数
      */
     public int insert(Object obj) {
 
@@ -119,7 +133,7 @@ public abstract class Query implements Cloneable {
      *
      * @param clazz 跟这个表对应的class对象
      * @param id    主键的值
-     * @return
+     * @return 删除、影响的行数记录 如果主键ID或者参数有误将返回-1
      */
     public int delete(Class clazz, Object id) {
         TableInfo tableInfo = TableContext.poClassTableMap.get(clazz);
@@ -131,8 +145,8 @@ public abstract class Query implements Cloneable {
     /**
      * 删除对象在数据库中对应的记录（对象所在的类对应到表，对象的主键的值对应到记录）
      *
-     * @param obj
-     * @return
+     * @param obj 需要删除的对象，必须的数据库对应生成的类
+     * @return 成功删除行数
      */
     public int delete(Object obj) {
         Class aClass = obj.getClass();
@@ -148,7 +162,7 @@ public abstract class Query implements Cloneable {
      *
      * @param obj       所要更新的对象
      * @param fieldname 更新的属性内容
-     * @return 执行sql语句后影响的记录行数
+     * @return 执行sql语句后影响的记录行数 如果主键ID或者参数有误将返回-1
      */
     public int update(Object obj, String[] fieldname) {
         //obj{"user","pwd"}--> update 表名 set username=? , pwd=? where id=?
@@ -180,7 +194,7 @@ public abstract class Query implements Cloneable {
      * 更新所有的属性
      *
      * @param obj 通过ID 更新对象
-     * @return
+     * @return 执行sql语句后影响的记录行数 如果主键ID或者参数有误将返回-1
      */
     public int update(Object obj) {
         //通过ID 更新对象  update 表名 set username=? , pwd=? where id=?
@@ -265,7 +279,7 @@ public abstract class Query implements Cloneable {
      *
      * @param clazz class对象
      * @param Id    主键ID
-     * @return
+     * @return 返回查询到的对象
      */
     public Object queryById(Class clazz, Object Id) {
         //通过Class对象找到TableInfo
@@ -322,7 +336,7 @@ public abstract class Query implements Cloneable {
      * @param pageSize 每页显示多少条记录
      * @param clazz    class 反射对象
      * @param params   参数
-     * @return
+     * @return 返回分页查询的结果List对象  可通过泛型强转
      */
     public abstract List queryPagenate(String sql, int pageNum, int pageSize, Class clazz, Object[] params);
 

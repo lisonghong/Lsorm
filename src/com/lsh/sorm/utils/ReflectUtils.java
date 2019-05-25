@@ -7,14 +7,15 @@ import java.lang.reflect.Method;
  *
  * @author LSH
  */
+@SuppressWarnings("all")
 public class ReflectUtils {
 
     /**
-     * 调用Object对象的get方法
+     * 调用Object对象某给属性的get方法
      *
      * @param fieldName 属性名
      * @param obj       Object对象
-     * @return
+     * @return 返回get方法的对象值
      */
     public static Object invokeGet(String fieldName, Object obj) {
         Class aClass = obj.getClass();
@@ -27,6 +28,13 @@ public class ReflectUtils {
         }
     }
 
+    /**
+     * 调用Object对象某给属性的set方法
+     *
+     * @param fieldName 属性名
+     * @param setObj    需要设置的Object对象
+     * @param obj       设置的原对象
+     */
     public static void invokeSet(String fieldName, Object setObj, Object obj) {
         if (setObj != null) {   //保存值不为null
             Class aClass = obj.getClass();
