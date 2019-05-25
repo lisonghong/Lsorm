@@ -43,12 +43,12 @@ public class Configuration {
     /**
      * 连接池最小连接数
      */
-    private int poolMinSize;
+    private int poolMinSize = 2;
 
     /**
      * 连接池最大连接数
      */
-    private int poolMaxSize;
+    private int poolMaxSize = 10;
 
 
     public Configuration() {

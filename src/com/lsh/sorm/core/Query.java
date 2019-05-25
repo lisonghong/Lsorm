@@ -9,6 +9,7 @@ import java.lang.reflect.Field;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("all")
 public abstract class Query implements Cloneable {
@@ -24,6 +25,12 @@ public abstract class Query implements Cloneable {
         return super.clone();
     }
 
+    public Query() {
+        //开始加载
+        Map<String, TableInfo> tables = TableContext.tables;
+    }
+
+
     public Object executeQueryTemplate(String sql, Object[] params, Class clazz, CallBack callBack) {
         //查询
         Connection conn = DBManager.getConn();//获取连接对象
@@ -32,6 +39,7 @@ public abstract class Query implements Cloneable {
         try {
             Ps = conn.prepareStatement(sql);//通过sql获取Ps
             JDBCUtils.handleParams(Ps, params);   //给Ps设置参数
+            System.out.println(Ps);
             resultSet = Ps.executeQuery();//执行查询
             return callBack.doExecute(conn, Ps, resultSet, clazz);
         } catch (Exception e) {
@@ -307,13 +315,16 @@ public abstract class Query implements Cloneable {
     }
 
     /**
-     * 分页查询
+     * 分页查询数据
      *
-     * @param pageNum 第几页的数据
-     * @param siez    每页显示多少条记录
+     * @param sql      查询sql
+     * @param pageNum  第几页的数据
+     * @param pageSize 每页显示多少条记录
+     * @param clazz    class 反射对象
+     * @param params   参数
      * @return
      */
-    public abstract Object queryPagenate(int pageNum, int siez);
+    public abstract List queryPagenate(String sql, int pageNum, int pageSize, Class clazz, Object[] params);
 
 
 }

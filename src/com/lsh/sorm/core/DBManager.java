@@ -13,16 +13,17 @@ import com.lsh.sorm.pool.DBConnPool;
  * @author LSH
  */
 public class DBManager {
-    public static Configuration conf;
-    public static DBConnPool dbConnPool = null;
+    public static final Configuration conf;
 
     static {// 静态代码块只有在类初始话的时候执行，只执行一次
+        //加载配置文件
         Properties pros = new Properties();
         try {
             pros.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("db.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //设置配置文件值
         conf = new Configuration();
         conf.setDriver(pros.getProperty("driver"));
         conf.setUrl(pros.getProperty("url"));
@@ -32,10 +33,28 @@ public class DBManager {
         conf.setSrcPath(pros.getProperty("srcPath"));
         conf.setPoPackage(pros.getProperty("poPackage"));
         conf.setQueryClass(pros.getProperty("queryClass"));
-        conf.setPoolMinSize(Integer.parseInt(pros.getProperty("poolMinSize")));
-        conf.setPoolMaxSize(Integer.parseInt(pros.getProperty("poolMaxSize")));
 
-        System.out.println(TableContext.class);//加载TableContext
+        String poolMinSize = pros.getProperty("poolMinSize");
+        String poolMaxSize = pros.getProperty("poolMaxSize");
+
+        try {
+            if (poolMinSize != null) {
+                int i = Integer.parseInt(poolMinSize);
+                conf.setPoolMinSize(i <= 0 ? 0 : i);
+            }
+
+        } catch (Exception e) {
+            System.out.println("最小初始程序连接池配置参数有误、正确使用(poolMinSize=10最小初始程序池)！将使用默认配置(初始值为2、)");
+        }
+
+        try {
+            if (poolMaxSize != null) {
+                int i = Integer.parseInt(poolMaxSize);
+                conf.setPoolMaxSize(i <= 0 ? 1 : i);
+            }
+        } catch (Exception e) {
+            System.out.println("最大空闲程序连接池配置参数有误、正确使用(poolMaxSize=20最大空闲程序连接池)！将使用默认配置(空闲最大值为10、)");
+        }
     }
 
     /**
@@ -49,6 +68,7 @@ public class DBManager {
             return DriverManager.getConnection(conf.getUrl(), conf.getUser(), conf.getPwd());//直接建立连接，后期增加连接池处理提高效率
         } catch (SQLNonTransientConnectionException e) {
             System.out.println("超过数据库允许最大连接数！！！");
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,26 +76,13 @@ public class DBManager {
     }
 
     /**
-     * 通过连接池获取对象
+     * 通过连接池获取连接对象
      *
      * @return 连接对象
      */
     public static Connection getConn() {
-        if (dbConnPool == null) {
-            dbConnPool = new DBConnPool();
-        }
-        return dbConnPool.getConnection();
+        return DBConnPool.dbConnPool.getConnection();
     }
-    /*
-    public static Connection getConn() {
-        try {
-            Class.forName(conf.getDriver());
-            return DriverManager.getConnection(conf.getUrl(), conf.getUser(), conf.getPwd());//直接建立连接，后期增加连接池处理提高效率
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }*/
 
 
     public static Configuration getConf() {
@@ -126,19 +133,11 @@ public class DBManager {
     public static void close(ResultSet resultSet, PreparedStatement ps) {
         close(resultSet);
         close(ps);
-
     }
 
 
     public static void close(Connection conn) {
-//        if (conn != null) {
-//            try {
-//                conn.close();
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            }
-//        }
-        dbConnPool.close(conn);
+        DBConnPool.dbConnPool.close(conn);
     }
 
     public static void close(ResultSet resultSet) {

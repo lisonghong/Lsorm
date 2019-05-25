@@ -92,12 +92,4 @@ public class JavaFileUtils {
         }
 
     }
-
-    public static void main(String[] args) {
-        ColumnInfo columnInfo = new ColumnInfo("userS", "varchar", 0);
-        JavaFieldGetSet fieldGetSetSRC = createFieldGetSetSRC(columnInfo, new MySqlTypeConvertor());
-        System.out.println(fieldGetSetSRC);
-    }
-
-
 }

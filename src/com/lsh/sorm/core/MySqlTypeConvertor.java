@@ -36,16 +36,18 @@ public class MySqlTypeConvertor implements TypeConvertor {
             return "java.sql.Timestamp";
         } else if ("TEXT".equalsIgnoreCase(columnType)) {
             return "String";
-           // return "StringBuilder";
+            // return "StringBuilder";
         }
-
-        System.out.println(columnType);
+        System.out.println(columnType + "类型转换错误！请检查Sorm以及代码");
         return null;
     }
 
+    /**
+     * @param javaDatatype Java数据类型
+     * @return
+     */
     @Override
     public String JavaType2DatabaseType(String javaDatatype) {
-        // TODO 自动生成的方法存根
         return null;
     }
 

@@ -16,7 +16,7 @@ import com.lsh.sorm.utils.StringUtils;
 /**
  * 负责获取管理数据库所有表结构和类结构的关系，并可以根据表结构生成类结构。
  *
- * @author gaoqi www.sxt.cn
+ * @author lSH
  */
 public class TableContext {
 
@@ -34,9 +34,10 @@ public class TableContext {
     }
 
     static {
+        Connection con = null;
         try {
             //初始化获得表的信息
-            Connection con = DBManager.getConn();
+            con = DBManager.getConn();
             DatabaseMetaData dbmd = con.getMetaData();
 
 
@@ -73,6 +74,8 @@ public class TableContext {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DBManager.close(con);
         }
 
         //更新类结构
@@ -80,7 +83,6 @@ public class TableContext {
 
         //加载po包下面的类
         loadPOTables();
-
     }
 
     /**
