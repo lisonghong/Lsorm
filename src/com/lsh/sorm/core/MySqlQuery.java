@@ -1,8 +1,16 @@
 package com.lsh.sorm.core;
 
+import com.lsh.sorm.bean.TableInfo;
+
 import java.util.List;
+import java.util.Map;
 
 public class MySqlQuery extends Query {
+
+    public static void main(String[] args)
+    {
+        Map<String, TableInfo> tables = TableContext.tables;
+    }
 
     /**
      * @param sql      查询sql

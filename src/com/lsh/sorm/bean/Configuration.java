@@ -7,9 +7,9 @@ package com.lsh.sorm.bean;
  */
 public class Configuration {
     /**
-     * 驱动类
+     * 驱动类 默认com.mysql.cj.jdbc.Driver
      */
-    private String driver;
+    private String driver="com.mysql.cj.jdbc.Driver";
     /**
      * jdbc的url
      */
@@ -27,26 +27,26 @@ public class Configuration {
      */
     private String usingDB;
     /**
-     * 项目的源码路径
+     * 项目的源码路径  默认当前程序的src目录
      */
-    private String srcPath;
+    private String srcPath=System.getProperty("user.dir") + "\\src";
     /**
-     * 扫描生成Java类的包(po的意思是：Persistence object持久化对象)
+     * 扫描生成Java类的包(po的意思是：Persistence object持久化对象)  默认包 DBClass
      */
-    private String poPackage;
+    private String poPackage="DBClass";
 
     /**
-     * 使用哪个query实现类
+     * 使用哪个query实现类   默认使用com.lsh.sorm.core.MySqlQuery
      */
-    private String queryClass;
+    private String queryClass="com.lsh.sorm.core.MySqlQuery";
 
     /**
-     * 连接池最小连接数
+     * 连接池最小连接数  默认初始最小连接2
      */
     private int poolMinSize = 2;
 
     /**
-     * 连接池最大连接数
+     * 连接池最大连接数 默认空闲最大连接数10
      */
     private int poolMaxSize = 10;
 

@@ -25,7 +25,6 @@ public class ReflectUtils {
             //  e.printStackTrace();
             return null;
         }
-
     }
 
     public static void invokeSet(String fieldName, Object setObj, Object obj) {

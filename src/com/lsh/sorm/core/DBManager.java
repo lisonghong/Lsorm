@@ -1,11 +1,11 @@
 package com.lsh.sorm.core;
 
+import com.lsh.sorm.bean.Configuration;
+import com.lsh.sorm.pool.DBConnPool;
+
 import java.io.IOException;
 import java.sql.*;
 import java.util.Properties;
-
-import com.lsh.sorm.bean.Configuration;
-import com.lsh.sorm.pool.DBConnPool;
 
 /**
  * 根据配置信息，维持连接对象的管理（增加连接池功能）
@@ -25,18 +25,35 @@ public class DBManager {
         }
         //设置配置文件值
         conf = new Configuration();
-        conf.setDriver(pros.getProperty("driver"));
+
         conf.setUrl(pros.getProperty("url"));
         conf.setUser(pros.getProperty("user"));
         conf.setPwd(pros.getProperty("pwd"));
         conf.setUsingDB(pros.getProperty("usingDB"));
-        conf.setSrcPath(pros.getProperty("srcPath"));
-        conf.setPoPackage(pros.getProperty("poPackage"));
-        conf.setQueryClass(pros.getProperty("queryClass"));
 
-        String poolMinSize = pros.getProperty("poolMinSize");
-        String poolMaxSize = pros.getProperty("poolMaxSize");
+        String driver = pros.getProperty("driver");//获取配置的数据库驱动
+        if (driver != null && !driver.equals("")) {
+            conf.setDriver(driver);
+        }
 
+        String srcPath = pros.getProperty("srcPath");//获取配置的文件路径
+        String poPackage = pros.getProperty("poPackage");//获取配置的po包路径
+        if (srcPath != null && !srcPath.equals("")) {
+            conf.setSrcPath(pros.getProperty("srcPath"));
+        }
+        if (poPackage != null && !poPackage.equals("")) {
+            conf.setPoPackage(pros.getProperty("poPackage"));
+        }
+
+
+        String queryClass = pros.getProperty("queryClass");//获取配置的Query对象包路径 默认为 com.lsh.sorm.core.MySqlQuery
+        if (queryClass != null && !queryClass.equals("")) {
+            conf.setQueryClass(queryClass);
+        }
+
+
+        String poolMinSize = pros.getProperty("poolMinSize");//初始化最小连接数据
+        String poolMaxSize = pros.getProperty("poolMaxSize");//最大空闲连接数据
         try {
             if (poolMinSize != null) {
                 int i = Integer.parseInt(poolMinSize);

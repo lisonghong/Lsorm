@@ -4,9 +4,7 @@ import com.lsh.sorm.bean.ColumnInfo;
 import com.lsh.sorm.bean.JavaFieldGetSet;
 import com.lsh.sorm.bean.TableInfo;
 import com.lsh.sorm.core.DBManager;
-import com.lsh.sorm.core.MySqlTypeConvertor;
 import com.lsh.sorm.core.TypeConvertor;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -53,16 +51,18 @@ public class JavaFileUtils {
 
     public static void createJavaPOFile(TableInfo tableInfo, TypeConvertor typeConvertor) {
         //获取类源码;
-        String javaSrc =StringUtils. createJavaSrc(tableInfo, typeConvertor);
+        String javaSrc = StringUtils.createJavaSrc(tableInfo, typeConvertor);
 
         //通过IO生成Java文件
-        File file = new File(DBManager.getConf().getSrcPath() + "/" + DBManager.getConf().getPoPackage().replace(".", "//"));
-        if (file.exists()) {
+        String path = DBManager.getConf().getSrcPath() + "\\" + DBManager.getConf().getPoPackage().replace(".", "\\");
+        System.out.println(path);
+        File file = new File(path);
+        System.out.println(path);
+        if (!file.exists()) {
             file.mkdirs();
         }
-
         BufferedWriter BufRe = null;
-        FileWriter fileWriter =null;
+        FileWriter fileWriter = null;
         try {
             String javapath = file.getAbsoluteFile() + "/" + StringUtils.firstChar2UpperCase(tableInfo.getTname()) + ".java";
             fileWriter = new FileWriter(javapath);
@@ -79,8 +79,7 @@ public class JavaFileUtils {
                     e.printStackTrace();
                 }
             }
-            if (fileWriter!=null)
-            {
+            if (fileWriter != null) {
                 try {
                     fileWriter.close();
                 } catch (IOException e) {
