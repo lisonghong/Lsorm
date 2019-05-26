@@ -5,16 +5,16 @@ db.properties为配置文件
 
 
 
-//driver=com.mysql.cj.jdbc.Driver
-url=jdbc:mysql://121.42.168.192:3306/JB?characterEncoding=UTF-8
-user=root
-pwd=123456
-usingDB=JB
-//srcPath=D:\\JavaSe\\SORM\\src
-//poPackage=DBClass
-//queryClass=com.lsh.sorm.core.MySqlQuery
-//poolMinSize=2
-//poolMaxSize=10
+#driver=com.mysql.cj.jdbc.Driver
+#url=jdbc:mysql://121.42.168.192:3306/JB?characterEncoding=UTF-8
+#user=root
+#pwd=123456
+#usingDB=JB
+#srcPath=D:\\JavaSe\\SORM\\src
+#poPackage=DBClass
+#queryClass=com.lsh.sorm.core.MySqlQuery
+#poolMinSize=2
+#poolMaxSize=10
 
 
 
