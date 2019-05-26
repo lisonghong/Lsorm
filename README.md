@@ -3,7 +3,7 @@
 db.properties为配置文件
 
 driver=com.mysql.cj.jdbc.Driver                                              数据库加载驱动,默认com.mysql.cj.jdbc.Driver
-url=jdbc:mysql://121.42.168.192:3306/JB?characterEncoding=UTF-8              数据库连接url
+url=jdbc:mysql://192.1.1.1:3306/JB?characterEncoding=UTF-8                   数据库连接url
 user=root                                                                    数据库用户名
 pwd=123456                                                                   数据库密码
 usingDB=JB                                                                   使用哪个数据库
