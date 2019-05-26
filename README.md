@@ -1,15 +1,15 @@
 # Lsorm
 模仿sorm框架，实现连接池功能，实现对象到表，表到对象
-db.properties为配置文件
+db.properties为配置文件  
 
 
 
 
-#driver=com.mysql.cj.jdbc.Driver
-#url=jdbc:mysql://121.42.168.192:3306/JB?characterEncoding=UTF-8
-#user=root
-#pwd=123456
-#usingDB=JB
+#driver=com.mysql.cj.jdbc.Driver  
+#url=jdbc:mysql://121.42.168.192:3306/JB?characterEncoding=UTF-8  
+#user=root  
+#pwd=123456  
+#usingDB=JB  
 #srcPath=D:\\JavaSe\\SORM\\src
 #poPackage=DBClass
 #queryClass=com.lsh.sorm.core.MySqlQuery
