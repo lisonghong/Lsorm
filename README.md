@@ -10,9 +10,9 @@ url=jdbc:mysql://121.42.168.192:3306/JB?characterEncoding=UTF-8
 user=root  
 pwd=123456  
 usingDB=JB  
-srcPath=D:\\JavaSe\\SORM\\src
-poPackage=DBClass
-queryClass=com.lsh.sorm.core.MySqlQuery
+srcPath=D:\\JavaSe\\SORM\\src  
+poPackage=DBClass  
+queryClass=com.lsh.sorm.core.MySqlQuery  
 poolMinSize=2  
 poolMaxSize=10  
 
@@ -42,4 +42,4 @@ poolMaxSize          连接池最大空闲连接，该配置决定你最后连�
   
   
 欢迎各位共同修改bug  
-有任何使用问题和意见欢迎邮箱骚扰1154653270@qq.com  或者直接加QQ1154653270
+有任何使用问题和意见欢迎邮箱骚扰1154653270@qq.com  或者直接加QQ1154653270  
